@@ -1,7 +1,4 @@
-﻿
-
-
-char[] Neighbors(int y, int x, char[,] grid)
+﻿char[] Neighbors(int y, int x, char[,] grid)
 {
     var neighbors = new List<char>();
 
