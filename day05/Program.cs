@@ -59,40 +59,33 @@
     return new InputData(mergedRanges, ids, minStart, maxEnd);
 }
 
-long Solve(InputData input)
+long Solve1(InputData input) => input.Ids.Aggregate(0L, (acc, id) =>
 {
-    var result = 0L;
-    foreach (var id in input.Ids)
-    {
-        if (id < input.MinStart || id > input.MaxEnd)
-            continue;
+    if (id < input.MinStart || id > input.MaxEnd)
+        return acc;
 
-        foreach (var range in input.Ranges)
+    foreach (var range in input.Ranges)
+    {
+        if (id >= range.Start && id <= range.End)
         {
-            if (id >= range.Start && id <= range.End)
-            {
-                result++;
-            }
+            acc++;
         }
     }
 
-    return result;
-}
+    return acc;
+});
 
-long Solve2(InputData inputData)
+
+long Solve2(InputData inputData) => inputData.Ranges.Aggregate(0L, (acc, range) =>
 {
-    var result = 0L;
+    acc += range.End - range.Start + 1;
+    return acc;
+});
 
-    foreach (var range in inputData.Ranges)
-    {
-        result += range.End - range.Start + 1;
-    }
+var input = ParseInput();
 
-    return result;
-}
-
-Console.WriteLine(Solve(ParseInput()));
-Console.WriteLine(Solve2(ParseInput()));
+Console.WriteLine(Solve1(input));
+Console.WriteLine(Solve2(input));
 
 record InputData(List<Range> Ranges, List<long> Ids, long MinStart, long MaxEnd);
 record Range(long Start, long End);
